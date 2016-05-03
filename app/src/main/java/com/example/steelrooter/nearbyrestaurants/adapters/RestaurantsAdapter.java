@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.example.steelrooter.nearbyrestaurants.R;
 import com.example.steelrooter.nearbyrestaurants.models.Restaurant;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -17,7 +18,9 @@ import java.util.List;
  * <p/>
  * Created by Sachin on 03/05/16 at 1:19 PM.
  */
-public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.RestaurantViewHolder> {
+public class RestaurantsAdapter
+        extends RecyclerView.Adapter<RestaurantsAdapter.RestaurantViewHolder>
+        implements ItemTouchHelperAdapter {
 
     public static class RestaurantViewHolder extends RecyclerView.ViewHolder {
         TextView mTitle;
@@ -73,5 +76,25 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.
     @Override
     public int getItemCount() {
         return mRestaurants == null ? 0 : mRestaurants.size();
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+        mRestaurants.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    @Override
+    public void onItemMove(int fromPosition, int toPosition) {
+        if (fromPosition < toPosition) {
+            for (int i = fromPosition; i < toPosition; i++) {
+                Collections.swap(mRestaurants, i, i + 1);
+            }
+        } else {
+            for (int i = fromPosition; i > toPosition; i--) {
+                Collections.swap(mRestaurants, i, i - 1);
+            }
+        }
+        notifyItemMoved(fromPosition, toPosition);
     }
 }
