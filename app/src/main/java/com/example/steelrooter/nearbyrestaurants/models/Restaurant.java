@@ -1,9 +1,11 @@
 package com.example.steelrooter.nearbyrestaurants.models;
 
+import android.support.annotation.NonNull;
+
 import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
-public class Restaurant {
+public class Restaurant implements Comparable<Restaurant>{
 
     @SerializedName("geometry")
     private Geometry geometry;
@@ -246,4 +248,17 @@ public class Restaurant {
         this.vicinity = vicinity;
     }
 
+    @Override
+    public int compareTo(@NonNull Restaurant another) {
+        double anotherRating = another.getRating() == null ? -1 : another.getRating();
+        double thisRating = getRating() == null ? -1 : getRating();
+
+        if (anotherRating > thisRating) {
+            return 1;
+        } else if (anotherRating == thisRating) {
+            return 0;
+        } else {
+            return -1;
+        }
+    }
 }

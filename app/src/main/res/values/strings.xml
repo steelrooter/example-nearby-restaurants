@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Nearby Restaurants</string>
+    <string name="rating_template">Rating: %1$.1f</string>
 </resources>
